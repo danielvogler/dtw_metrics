@@ -143,7 +143,7 @@ def plot_cost_matrix(y_1, y_2):
     y_plot.set_ylabel('Reference [-]')
 
     return
-    
+
 
 '''
     trig example
@@ -159,3 +159,22 @@ y_1 = np.cos(x_1)
 x_2 = np.linspace(0, 4*pi, length_2)
 distortion = np.random.uniform(low=0.8, high=1.0, size=( length_2, )) + np.cos(x_2/4*3) + np.cos(1.5*x_2)*0.2
 y_2 = np.cos(x_2) * distortion
+
+
+'''
+    compute/plot dtw
+'''
+### compute dtw
+dtw = acm( [y_1,x_1], [y_2,x_2] )
+print('DTW: {}'.format(dtw[-1,-1]) )
+
+### compute optimal path
+owp = optimal_warping_path( dtw )
+
+### plot data and cm
+plot_sequences( [x_1,y_1], [x_2,y_2] )
+plot_cost_matrix(y_1,y_2)
+
+
+plt.show()
+exit()
