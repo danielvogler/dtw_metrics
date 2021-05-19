@@ -1,5 +1,8 @@
 '''
 Daniel Vogler
+ 
+Utilities: 
+- plotting 
 
 '''
 

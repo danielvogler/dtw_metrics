@@ -1,6 +1,11 @@
 '''
 Daniel Vogler
 
+dtw metrics:
+- cost matrix
+- accumulated cost matrix
+- optimal warping path
+
 References: 
 (1) Müller, Meinard. Information retrieval for music and motion. Vol. 2. 
     Heidelberg: Springer, 2007. https://doi.org/10.1007/978-3-540-74048-3
