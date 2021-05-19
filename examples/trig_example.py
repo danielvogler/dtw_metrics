@@ -40,8 +40,8 @@ print('DTW: {}'.format(dtw[-1,-1]) )
 owp = dtwm.optimal_warping_path( dtw )
 
 ### plot data and cm
-dtwu.plot_sequences( [x_1,y_1], [x_2,y_2] )
-dtwu.plot_cost_matrix( [x_1,y_1], [x_2,y_2] )
+dtwu.plot_sequences( [y_1,x_1], [y_2,x_2] )
+dtwu.plot_cost_matrix( [y_1,x_1], [y_2,x_2] )
 
 plt.show()
 exit()
