@@ -38,7 +38,7 @@ class DTWMetrics:
         N, M = cm.shape
 
         ### initialize
-        acm = np.ones( [N, M] )
+        acm = np.zeros( [N, M] )
 
         ### boundary condition 1
         acm[0,0] = cm[0,0]

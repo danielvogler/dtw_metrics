@@ -18,8 +18,8 @@ class DTWUtils:
     def plot_sequences(self, reference, dataset ):
 
         fig = plt.figure(num=None, figsize=(200, 150), dpi=80, facecolor='w', edgecolor='k')
-        p = plt.scatter(reference[0],reference[1],s=500,marker='.',c='k',label="Reference")
-        p = plt.scatter(dataset[0],dataset[1],s=500,marker='.',c='r',label="Dataset")
+        p = plt.scatter(reference[1],reference[0],s=500,marker='.',c='k',label="Reference")
+        p = plt.scatter(dataset[1],dataset[0],s=500,marker='.',c='r',label="Dataset")
         plt.legend(loc='upper center')
         plt.xlabel("Time [-]")
         plt.ylabel("Value [-]")
@@ -29,10 +29,10 @@ class DTWUtils:
 
     def plot_cost_matrix(self, reference, dataset ):
 
-        x_1 = reference[0]
-        y_1 = reference[1]
-        x_2 = dataset[0]
-        y_2 = dataset[1]
+        y_1 = reference[0]
+        x_1 = reference[1]
+        y_2 = dataset[0]
+        x_2 = dataset[1]
         
         ### cost matrix 
         cm = dtwm.cost_matrix(y_1,y_2)
