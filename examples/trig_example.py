@@ -4,11 +4,14 @@ Daniel Vogler
 '''
 
 from dtwmetrics.dtwmetrics import DTWMetrics
+from dtwmetrics.dtwutils import DTWUtils
+
 import numpy as np
 from math import pi 
 from matplotlib import pyplot as plt
 
 dtwm = DTWMetrics()
+dtwu = DTWUtils()
 
 '''
     trig example
@@ -37,8 +40,8 @@ print('DTW: {}'.format(dtw[-1,-1]) )
 owp = dtwm.optimal_warping_path( dtw )
 
 ### plot data and cm
-dtwm.plot_sequences( [x_1,y_1], [x_2,y_2] )
-dtwm.plot_cost_matrix( [x_1,y_1], [x_2,y_2] )
+dtwu.plot_sequences( [x_1,y_1], [x_2,y_2] )
+dtwu.plot_cost_matrix( [x_1,y_1], [x_2,y_2] )
 
 plt.show()
 exit()
