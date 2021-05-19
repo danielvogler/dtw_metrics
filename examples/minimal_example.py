@@ -25,9 +25,13 @@ y_2 = np.cos(x_2)
 ### sequence 3
 y_3 = np.cos(x_2) + 0.01
 
+xy_1 = np.asarray([x_1,y_1]).T
+xy_2 = np.asarray([x_2,y_2]).T
+xy_3 = np.asarray([x_3,y_3]).T
+
 ### compute dtw
-dtw = dtwm.acm( [y_1,x_1], [y_2,x_2] )
+dtw = dtwm.acm( xy_1, xy_2 )
 print('DTW of identical curves: {}'.format(dtw[-1,-1]) )
 
-dtw = dtwm.acm( [y_1,x_1], [y_3,x_3] )
+dtw = dtwm.acm( xy_1, xy_3 )
 print('DTW of slightly offset curves: {}'.format(dtw[-1,-1]) )
