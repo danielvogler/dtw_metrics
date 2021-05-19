@@ -13,6 +13,7 @@ References:
 '''
 
 import numpy as np
+from numpy import argmin
 from scipy.spatial.distance import cdist
 
 class DTWMetrics:
@@ -69,7 +70,7 @@ class DTWMetrics:
         n = N - 1
         m = M - 1
 
-        p.append([n,m])
+        p.append([N,M])
 
         ### compute in reverse order
         ### From (1) Algorithm: OptimalWarpingPath
@@ -81,14 +82,15 @@ class DTWMetrics:
                 n = n - 1
             else:
                 ### compute direction of optimal step
-                optimal_step = min( acm[n-1,m-1], acm[n-1,m], acm[n,m-1] )
+                optimal_step = []
+                optimal_step = argmin( [ acm[n-1,m-1], acm[n-1,m], acm[n,m-1] ] )
                 ### progress indices in direction of optimal step
-                if optimal_step == acm[n-1, m-1]:
+                if optimal_step == 0:
                     n = n - 1
                     m = m - 1
-                elif optimal_step == acm[n-1, m]:
+                elif optimal_step == 1:
                     n = n - 1
-                elif optimal_step == acm[n, m-1]:
+                elif optimal_step == 2:
                     m = m - 1
                 else:
                     print('Error in optimal step computation')

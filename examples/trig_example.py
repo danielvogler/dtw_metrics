@@ -24,7 +24,7 @@ length_2 = 100
 x_1 = np.linspace(0, 2*pi, length_1)
 y_1 = np.cos(x_1)
 ### sequence 2
-x_2 = np.linspace(0, 2*pi, length_2)
+x_2 = np.linspace(0, 2*pi+1, length_2)
 distortion = np.random.uniform(low=0.8, high=1.0, size=( length_2, )) + np.cos(x_2/4*3) + np.cos(1.5*x_2)*0.2
 y_2 = np.cos(x_2) * distortion
 

@@ -32,8 +32,8 @@ class DTWUtils:
         ### cost matrix 
         cm = dtwm.cost_matrix( reference[:,1] , dataset[:,1] )
         ### dtw
-        D = dtwm.acm( reference, dataset )
-        owp = dtwm.optimal_warping_path( D )
+        acm = dtwm.acm( reference, dataset )
+        owp = dtwm.optimal_warping_path( acm )
 
         # Set up the axes with gridspec
         fig = plt.figure(figsize=(6, 6))
@@ -43,8 +43,8 @@ class DTWUtils:
         x_plot = fig.add_subplot(grid[-1, 1:], sharex=main_ax)
 
         # scatter points on the main axes
-        main_ax.pcolormesh(cm)
-        main_ax.plot(owp[:,1],owp[:,0],color='w')
+        main_ax.pcolormesh( acm )
+        main_ax.plot(owp[:,0],owp[:,1],color='w')
         main_ax.yaxis.tick_right()
         main_ax.xaxis.tick_top()
         main_ax.set_title('Cost matrix')
