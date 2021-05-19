@@ -13,7 +13,7 @@ References:
 '''
 
 import numpy as np
-
+from scipy.spatial.distance import cdist
 
 class DTWMetrics:
 
@@ -29,10 +29,11 @@ class DTWMetrics:
 
 
     ### accumulated cost matrix
-    def acm(self, target, estimate, distance_metric='seuclidean'):
+    def acm(self, target, estimate, distance_metric='cityblock'):
 
         ### compute cost matrix
-        cm = self.cost_matrix(target[0], estimate[0])
+        # cm = self.cost_matrix(target[0], estimate[0])
+        cm = cdist(target, estimate, metric=distance_metric)
 
         ### sequence lengths
         N, M = cm.shape
@@ -46,13 +47,14 @@ class DTWMetrics:
         ### From (1) Theorem 4.3
         ### D(n, 1) = \sum_{k=1}^n c(x_k , y_1 ) for n ∈ [1 : N ], 
         ### D(1, m) = \sum_{k=1}^n c(x_1 , y_k ) for m ∈ [1 : M ] and
-        ### D(n, m) = min{D(n − 1, m − 1), D(n − 1, m), D(n, m − 1)} + c(x_n , y_m )
-        ### for 1 < n ≤ N and 1 < m ≤ M .
         acm[1:,0] = [ acm[n-1,0] + cm[n,0] for n in range(1,N) ]
         acm[0,1:] = [ acm[0,m-1] + cm[0,m] for m in range(1,M) ]
-        acm_inner = [ [cm[n,m] + min(acm[n-1,m-1], acm[n-1,m], acm[n,m-1])] for n in range(1,N) for m in range(1,M) ]
-        ### fill in acm
-        acm[1:,1:] = np.reshape( acm_inner, (N-1, M-1) )
+
+        ### for 1 < n ≤ N and 1 < m ≤ M .
+        ### D(n, m) = min{D(n − 1, m − 1), D(n − 1, m), D(n, m − 1)} + c(x_n , y_m )
+        for n in range(1, N):
+            for m in range(1, M):
+                acm[n, m] = cm[n, m] + min( acm[n-1, m], acm[n, m-1], acm[n-1, m-1]) 
 
         return acm
 
