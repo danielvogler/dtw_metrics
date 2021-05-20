@@ -19,21 +19,35 @@ from scipy.spatial.distance import cdist
 class DTWMetrics:
 
     ### cost matrix
-    def cost_matrix(self, reference, query):
+    def cost_matrix(self, X, Y, distance_metric='cityblock'):
 
-        ### tile reference data
-        reference_tiled = np.tile(reference, (np.size(query),1) )
-        ### cost matrix
-        cost_matrix = np.absolute( ( reference_tiled.T - query ).T )
+        X = np.asarray(X, order='c')
+        Y = np.asarray(Y, order='c')
 
-        return cost_matrix
+        ### dimensions
+        X_sh = X.shape
+        Y_sh = Y.shape
+    
+        ### initialize
+        cm = np.empty( (X_sh[0], Y_sh[0]), dtype=np.double )
+
+        ### function string
+        dm_str = str('distance_' + distance_metric)
+        dm_func = getattr(self, dm_str)
+
+        ### create cost matrix
+        for i in range(0, X_sh[0] ):
+            for j in range(0, Y_sh[0] ):
+                cm[i, j] = dm_func(X[i], Y[j]) 
+
+        return cm
 
 
     ### accumulated cost matrix
     def acm(self, reference, query, distance_metric='cityblock'):
 
         ### compute cost matrix
-        # cm = self.cost_matrix(reference[0], query[0])
+        # cm = self.cost_matrix(reference, query)
         cm = cdist(reference, query, metric=distance_metric)
 
         ### sequence lengths
@@ -104,3 +118,19 @@ class DTWMetrics:
         owp = np.flip( owp )
 
         return owp
+
+
+    ### manhattan or cityblock distance
+    def distance_cityblock(self, a, b):
+
+        dist = np.sum( np.absolute( a - b ) )
+
+        return dist
+
+
+    ### euclidean distance
+    def distance_euclidean(self, a, b):
+
+        dist = np.sqrt( np.sum( (a - b)**2 ) )
+        
+        return dist

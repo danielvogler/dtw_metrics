@@ -1,7 +1,8 @@
 from setuptools import setup
+from dtwmetrics.version import __version__ 
 
 setup(name='dtwmetrics',
-      version='0.0.1',
+      version=__version__,
       description='Dynamic time warping metrics',
       long_description='Dynamic time warping metrics',
       url='https://github.com/danielvogler/dtw_metrics',
