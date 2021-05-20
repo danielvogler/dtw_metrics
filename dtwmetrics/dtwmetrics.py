@@ -19,22 +19,22 @@ from scipy.spatial.distance import cdist
 class DTWMetrics:
 
     ### cost matrix
-    def cost_matrix(self, target, estimate):
+    def cost_matrix(self, reference, query):
 
-        ### tile target data
-        target_tiled = np.tile(target, (np.size(estimate),1) )
+        ### tile reference data
+        reference_tiled = np.tile(reference, (np.size(query),1) )
         ### cost matrix
-        cost_matrix = np.absolute( ( target_tiled.T - estimate ).T )
+        cost_matrix = np.absolute( ( reference_tiled.T - query ).T )
 
         return cost_matrix
 
 
     ### accumulated cost matrix
-    def acm(self, target, estimate, distance_metric='cityblock'):
+    def acm(self, reference, query, distance_metric='cityblock'):
 
         ### compute cost matrix
-        # cm = self.cost_matrix(target[0], estimate[0])
-        cm = cdist(target, estimate, metric=distance_metric)
+        # cm = self.cost_matrix(reference[0], query[0])
+        cm = cdist(reference, query, metric=distance_metric)
 
         ### sequence lengths
         N, M = cm.shape
