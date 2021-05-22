@@ -18,27 +18,34 @@ class DTWUtils:
 
     def plot_sequences(self, reference, query ):
 
-        fig = plt.figure(num=None, figsize=(200, 150), dpi=80, facecolor='w', edgecolor='k')
+        fig = plt.figure(num=None, figsize=(16, 8), dpi=80, facecolor='w', edgecolor='k')
+        font = {'size'   : 14}
+        plt.rc('font', **font)
         p = plt.scatter(reference[:,0],reference[:,1],s=500,marker='.',c='k',label="Reference")
         p = plt.scatter(query[:,0],query[:,1],s=500,marker='.',c='r',label="Query")
         plt.legend(loc='upper center')
         plt.xlabel("Time [-]")
         plt.ylabel("Value [-]")
+        plt.title("Time sequence")
+
 
         return
 
 
 
-    def plot_cost_matrix(self, reference, query, distance_metric='cityblock' ):
+    def plot_cost_matrix(self, reference, query, distance_metric='euclidean' ):
         
         ### cost matrix 
-        cm = cdist(reference, query, metric=distance_metric)
+        cm = dtwm.cost_matrix(reference, query)
+        #cm = cdist(reference, query, metric=distance_metric)
         ### dtw
         acm = dtwm.acm( reference, query )
         owp = dtwm.optimal_warping_path( acm )
 
         # Set up the axes with gridspec
         fig = plt.figure(figsize=(6, 6))
+        font = {'size'   : 14}
+        plt.rc('font', **font)
         grid = plt.GridSpec(6, 6, hspace=0.2, wspace=0.2)
         main_ax = fig.add_subplot(grid[:-1, 1:])
         y_plot = fig.add_subplot(grid[:-1, 0], sharey=main_ax)
@@ -65,7 +72,7 @@ class DTWUtils:
         return
 
 
-    def plot_acc_cost_matrix(self, reference, query, distance_metric='cityblock' ):
+    def plot_acc_cost_matrix(self, reference, query, distance_metric='euclidean' ):
         
         ### cost matrix 
         cm = cdist(reference, query, metric=distance_metric)
@@ -75,6 +82,8 @@ class DTWUtils:
 
         # Set up the axes with gridspec
         fig = plt.figure(figsize=(6, 6))
+        font = {'size'   : 14}
+        plt.rc('font', **font)
         grid = plt.GridSpec(6, 6, hspace=0.2, wspace=0.2)
         main_ax = fig.add_subplot(grid[:-1, 1:])
         y_plot = fig.add_subplot(grid[:-1, 0], sharey=main_ax)

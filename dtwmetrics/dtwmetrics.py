@@ -43,11 +43,11 @@ class DTWMetrics:
 
 
     ### accumulated cost matrix
-    def acm(self, reference, query, distance_metric='cityblock'):
+    def acm(self, reference, query, distance_metric='euclidean'):
 
         ### compute cost matrix
-        # cm = self.cost_matrix(reference, query)
-        cm = cdist(reference, query, metric=distance_metric)
+        cm = self.cost_matrix(reference, query, distance_metric=distance_metric)
+        #cm = cdist(reference, query, metric=distance_metric)
 
         ### sequence lengths
         N, M = cm.shape
