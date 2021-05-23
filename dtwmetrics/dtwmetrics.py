@@ -45,9 +45,12 @@ class DTWMetrics:
     ### accumulated cost matrix
     def acm(self, reference, query, distance_metric='euclidean'):
 
+        reference = self.dim_check( reference )
+        query = self.dim_check( query )
+
         ### compute cost matrix
-        cm = self.cost_matrix(reference, query, distance_metric=distance_metric)
-        #cm = cdist(reference, query, metric=distance_metric)
+        #cm = self.cost_matrix(reference, query, distance_metric=distance_metric)
+        cm = cdist(reference, query, metric=distance_metric)
 
         ### sequence lengths
         N, M = cm.shape
@@ -136,3 +139,16 @@ class DTWMetrics:
         dist = np.sqrt( np.sum( (a - b)**2 ) )
         
         return dist
+
+
+    ### check if 1D and convert to vector array if so
+    def dim_check(self, x):
+
+        ### check dimensionality
+        x = np.atleast_2d( x )
+
+        ### transform for cdist if 1D
+        if x.shape[0] == 1:
+            x = x.T
+
+        return x
