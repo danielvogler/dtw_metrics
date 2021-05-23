@@ -152,3 +152,12 @@ class DTWMetrics:
             x = x.T
 
         return x
+
+
+    ### warped sequence
+    def warped_sequence(self, sequence, owp):
+
+        warped_sequence = [ [ owp[i,1], sequence[ owp[i,0] ] ] for i in range( owp.shape[0] - 1 ) ]
+        warped_sequence = np.asarray( warped_sequence )
+
+        return warped_sequence

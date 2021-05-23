@@ -45,6 +45,7 @@ owp = dtwm.optimal_warping_path( dtw )
 dtwu.plot_sequences( xy_1, xy_2 )
 dtwu.plot_matrix( xy_1, xy_2, plot_dim=0, matrix='cm' )
 dtwu.plot_matrix( xy_1, xy_2, plot_dim=0, matrix='acm' )
+dtwu.plot_warped_sequences( xy_1, xy_2 )
 
 plt.show()
 exit()
