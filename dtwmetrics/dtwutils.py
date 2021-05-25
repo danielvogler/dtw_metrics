@@ -44,16 +44,10 @@ class DTWUtils:
         return
 
 
-    def plot_warped_sequences(self, reference, query ):
+    def plot_warped_sequences(self, reference, query, owp ):
 
         reference = dtwm.dim_check( reference )
         query = dtwm.dim_check( query )
-
-        ### cost matrix 
-        cm = cdist(reference, query)
-        ### dtw
-        acm = dtwm.acm( reference, query )
-        owp = dtwm.optimal_warping_path( acm )
 
         fig = plt.figure(num=None, figsize=(16, 8), dpi=80, facecolor='w', edgecolor='k')
         font = {'size'   : 14}
