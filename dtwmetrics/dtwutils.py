@@ -86,17 +86,10 @@ class DTWUtils:
         return
         
 
-    def plot_matrix(self, reference, query, distance_metric='euclidean' , plot_dim=1, matrix='cm' ):
+    def plot_matrix(self, reference, query, matrix, owp=None , distance_metric='euclidean' , plot_dim=1, title='Matrix' ):
 
         reference = dtwm.dim_check( reference )
         query = dtwm.dim_check( query )
-
-        ### cost matrix 
-        #cm = dtwm.cost_matrix(reference, query)
-        cm = cdist(reference, query, metric=distance_metric)
-        ### dtw
-        acm = dtwm.acm( reference, query )
-        owp = dtwm.optimal_warping_path( acm )
 
         # Set up the axes with gridspec
         fig = plt.figure(figsize=(6, 6))
@@ -107,18 +100,17 @@ class DTWUtils:
         y_plot = fig.add_subplot(grid[:-1, 0], sharey=main_ax)
         x_plot = fig.add_subplot(grid[-1, 1:], sharex=main_ax)
 
-        # scatter points on the main axes
-        if matrix == 'cm':
-            main_ax.pcolormesh( cm )
-            main_ax.set_title('Cost matrix')
-            
-        elif matrix == 'acm':
-            main_ax.pcolormesh( acm )
-            main_ax.set_title('Accumulated cost matrix')
-
-        main_ax.plot(owp[:,0],owp[:,1],color='w')
+        main_ax.set_title(title)
+        ### plot passed patrix
+        main_ax.pcolormesh( matrix )
         main_ax.yaxis.tick_right()
         main_ax.xaxis.tick_top()
+
+        ### plot owp if given
+        try:
+            main_ax.plot(owp[:,0],owp[:,1],color='w')
+        except:
+            return
 
         # plots on the attached axes
         x_plot.plot(np.linspace(0,len(query[:,plot_dim]),len(query[:,plot_dim])), query[:,plot_dim], color='gray')

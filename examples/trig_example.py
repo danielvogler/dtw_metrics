@@ -34,8 +34,9 @@ xy_2 = np.asarray([y_2]).T
 '''
     compute/plot dtw
 '''
-### compute dtw
+### compute cm, dtw
 dtw = dtwm.acm( y_1, y_2 )
+
 print('DTW: {}'.format(dtw[-1,-1]) )
 
 ### compute optimal path
@@ -43,8 +44,7 @@ owp = dtwm.optimal_warping_path( dtw )
 
 ### plot data and cm
 dtwu.plot_sequences( xy_1, xy_2 )
-dtwu.plot_matrix( xy_1, xy_2, plot_dim=0, matrix='cm' )
-dtwu.plot_matrix( xy_1, xy_2, plot_dim=0, matrix='acm' )
+dtwu.plot_matrix( xy_1, xy_2, dtw, owp=owp, plot_dim=0, title="Accumulated cost matrix" )
 dtwu.plot_warped_sequences( xy_1, xy_2 )
 
 plt.show()
