@@ -6,13 +6,13 @@ Dynamic time warping metrics.
 - Example files in `/examples/`
 
 ### Examples
-![Example image](/images/example_sequence_trig.png "Example time series")  
+![Example image](/images/example_trig_patternP0_sequence.png "Example time series")  
 Fig 1: Compared time series.
 
-![Example image](/images/example_cm_trig.png "Example cost matrix")  
+![Example image](/images/example_trig_patternP0_cm.png "Example cost matrix")  
 Fig 2: Cost matrix and optimal warping path. 
 
-![Example image](/images/example_acm_trig.png "Example accumulated cost matrix")  
+![Example image](/images/example_trig_patternP0_acm.png "Example accumulated cost matrix")  
 Fig 3: Accumulated cost matrix and optimal warping path.
 
 
