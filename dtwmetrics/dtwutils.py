@@ -86,7 +86,7 @@ class DTWUtils:
         return
         
 
-    def plot_matrix(self, reference, query, distance_metric='euclidean' , plot_dim=1, matrix='cost' ):
+    def plot_matrix(self, reference, query, distance_metric='euclidean' , plot_dim=1, matrix='cm' ):
 
         reference = dtwm.dim_check( reference )
         query = dtwm.dim_check( query )
@@ -111,6 +111,7 @@ class DTWUtils:
         if matrix == 'cm':
             main_ax.pcolormesh( cm )
             main_ax.set_title('Cost matrix')
+            
         elif matrix == 'acm':
             main_ax.pcolormesh( acm )
             main_ax.set_title('Accumulated cost matrix')

@@ -80,44 +80,22 @@ class DTWMetrics:
 
 
     ### optimal warping path owp
-    def optimal_warping_path(self, acm):
-
-        p = []
+    def optimal_warping_path(self, acm, step_function='symmetric_p0'):
 
         ### determine acm shape
         N, M = acm.shape
         n = N - 1
         m = M - 1
 
+        p = []
         p.append([N,M])
 
-        ### compute in reverse order
-        ### From (1) Algorithm: OptimalWarpingPath
-        while n > 0 and m > 0:
-            ### check if acm bounds are reached
-            if n == 1:
-                m = m - 1
-            elif m == 1:
-                n = n - 1
-            else:
-                ### compute direction of optimal step
-                optimal_step = []
-                optimal_step = np.argmin( [ acm[n-1,m-1], acm[n-1,m], acm[n,m-1] ] )
-                ### progress indices in direction of optimal step
-                if optimal_step == 0:
-                    n = n - 1
-                    m = m - 1
-                elif optimal_step == 1:
-                    n = n - 1
-                elif optimal_step == 2:
-                    m = m - 1
-                else:
-                    print('Error in optimal step computation')
+        ### function string
+        step_str = str('step_' + step_function)
+        step_func = getattr(self, step_str)
 
-            ### append indices of optimal step
-            p.append([n,m])
-        
-        p.append([0,0])
+        ### execute step path
+        p = step_func(acm, n, m, p)
 
         owp = np.asarray( p )
         owp = np.flip( owp )
@@ -161,3 +139,38 @@ class DTWMetrics:
         warped_sequence = np.asarray( warped_sequence )
 
         return warped_sequence
+
+
+    ### step pattern: symmetric p0
+    def step_symmetric_p0(self, acm, n, m, p):
+
+        ### compute in reverse order
+        ### From (1) Algorithm: OptimalWarpingPath
+        while n > 0 and m > 0:
+            ### check if acm bounds are reached
+            if n == 1:
+                m = m - 1
+            elif m == 1:
+                n = n - 1
+            else:
+                ### compute direction of optimal step
+                optimal_step = []
+                optimal_step = np.argmin( [ acm[n-1,m-1], acm[n-1,m], acm[n,m-1] ] )
+                ### progress indices in direction of optimal step
+                if optimal_step == 0:
+                    n = n - 1
+                    m = m - 1
+                elif optimal_step == 1:
+                    n = n - 1
+                elif optimal_step == 2:
+                    m = m - 1
+                else:
+                    print('Error in optimal step computation')
+
+            ### append indices of optimal step
+            p.append([n,m])
+
+        ### B.C.
+        p.append([0,0])
+
+        return p
