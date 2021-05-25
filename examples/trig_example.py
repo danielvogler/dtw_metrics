@@ -17,8 +17,8 @@ dtwu = DTWUtils()
     trig example
 '''
 ### define sequence lengths
-length_1 = 1000
-length_2 = 500
+length_1 = 200
+length_2 = 100
 
 ### sequence 1
 x_1 = np.linspace(0, 8*pi, length_1)

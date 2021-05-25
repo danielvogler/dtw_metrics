@@ -18,7 +18,7 @@ dtwu = DTWUtils()
 '''
 ### define sequence lengths
 length_1 = 200
-length_2 = 200
+length_2 = 250
 
 ### sequence 1
 x_1 = np.linspace(0, 6*pi, length_1)
@@ -34,7 +34,7 @@ xy_2 = np.asarray([x_2,y_2]).T
     compute/plot dtw
 '''
 ### compute dtw
-dtw = dtwm.acm( xy_1, xy_2 )
+dtw = dtwm.acm( y_1, y_2 )
 print('DTW: {}'.format(dtw[-1,-1]) )
 
 ### compute optimal path
@@ -42,7 +42,9 @@ owp = dtwm.optimal_warping_path( dtw )
 
 ### plot data and cm
 dtwu.plot_sequences( xy_1, xy_2 )
-dtwu.plot_cost_matrix( xy_1, xy_2 )
+### plot data and cm
+dtwu.plot_warped_sequences( y_1, y_2 )
+dtwu.plot_matrix( y_1, y_2, plot_dim=0, matrix='cm'  )
 
 plt.show()
 exit()

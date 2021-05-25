@@ -5,6 +5,7 @@ minimal working example
 
 from dtwmetrics.dtwmetrics import DTWMetrics
 from dtwmetrics.dtwutils import DTWUtils
+from matplotlib import pyplot as plt
 
 import numpy as np
 
@@ -25,13 +26,14 @@ y_2 = np.cos(x_2)
 ### sequence 3
 y_3 = np.cos(x_2) + 0.01
 
-xy_1 = np.asarray([x_1,y_1]).T
-xy_2 = np.asarray([x_2,y_2]).T
-xy_3 = np.asarray([x_3,y_3]).T
-
 ### compute dtw
-dtw = dtwm.acm( xy_1, xy_2 )
+### perfect match of cost of 100*0.0 = 0.0
+dtw = dtwm.acm( y_1, y_2 )
 print('DTW of identical curves: {}'.format(dtw[-1,-1]) )
 
-dtw = dtwm.acm( xy_1, xy_3 )
+### cost of 100*0.01 = 1.0
+dtw = dtwm.acm( y_1, y_3 )
 print('DTW of slightly offset curves: {}'.format(dtw[-1,-1]) )
+
+dtwu.plot_sequences( y_1, y_3 )
+plt.show()

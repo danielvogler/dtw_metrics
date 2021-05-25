@@ -61,32 +61,35 @@ class DTWUtils:
         
         ### reference dim check
         if min( reference.shape ) == 1:
-            p = plt.plot(reference,marker='.',c='k',label="Reference")
+            p = plt.plot(reference,marker='.',c='k',label="Reference", linestyle='None')
         else:
-            p = plt.scatter(reference[:,0],reference[:,1],s=500,marker='.',c='k',label="Reference")
+            p = plt.scatter(reference[:,0],reference[:,1],marker='.',c='k',label="Reference")
         
         ### query dim check
         if min( query.shape ) == 1:
-            p = plt.plot(query,marker='.',c='r',label="Query")
+            p = plt.plot(query,marker='.',c='r',label="Query", linestyle='None')
         else:
             p = plt.scatter(query[:,0],query[:,1],marker='.',c='r',label="Query")
         
         ### warped sequence
         warped_query = dtwm.warped_sequence(query, owp)
         if min( warped_query.shape ) == 1:
-            p = plt.plot(warped_query,marker='.',c='b',label="Warped query")
+            p = plt.plot(warped_query,marker='.',c='b',label="Warped query", linestyle='None')
         else:
-            p = plt.scatter(warped_query[:,0],warped_query[:,1],s=500,marker='.',c='b',label="Warped query")
+            p = plt.scatter(warped_query[:,0],warped_query[:,1],marker='.',c='b',label="Warped query")
         
         plt.legend(loc='upper center')
-        plt.xlabel("Time [-]")
+        plt.xlabel("Index [-]")
         plt.ylabel("Value [-]")
-        plt.title("Time sequence")
+        plt.title("Sequences")
 
         return
         
 
     def plot_matrix(self, reference, query, distance_metric='euclidean' , plot_dim=1, matrix='cost' ):
+
+        reference = dtwm.dim_check( reference )
+        query = dtwm.dim_check( query )
 
         ### cost matrix 
         #cm = dtwm.cost_matrix(reference, query)
