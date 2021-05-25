@@ -35,7 +35,7 @@ xy_2 = np.asarray([y_2]).T
     compute/plot dtw
 '''
 ### compute cm, dtw
-dtw = dtwm.acm( y_1, y_2, step_pattern='symmetric_p1' )
+dtw = dtwm.acm( y_1, y_2, step_pattern='symmetric_p0' )
 cm = dtwm.cm( y_1, y_2 )
 
 
