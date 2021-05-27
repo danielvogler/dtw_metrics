@@ -17,6 +17,22 @@ from scipy.spatial.distance import cdist
 
 class DTWMetrics:
 
+
+    ### compute all dtwm_metrics
+    def dtwm(self, reference, query, distance_metric='euclidean', step_pattern='symmetric_p0', b=None ):
+
+        ### compute cost matrix cm, 
+        ### accumulated cost matrix acm,
+        ### optimal warping path owp and
+        ### warped sequence
+        cm = self.cm( reference, query, distance_metric=distance_metric )
+        acm = self.acm( reference, query, distance_metric=distance_metric, step_pattern=step_pattern )
+        owp = self.optimal_warping_path( acm, b=b )   
+        warped_query = self.warped_sequence(query, owp)      
+
+        return cm, acm, owp, warped_query
+
+
     ### cost matrix calculation
     def cm(self, X, Y, distance_metric='euclidean', method='cdist'):
 
