@@ -76,15 +76,27 @@ class DTWMetrics:
 
 
     ### optimal warping path owp
-    def optimal_warping_path(self, acm ):
+    def optimal_warping_path(self, acm, b=None ):
         
         print('\tOptimal warping path (owp)')
 
         ### determine acm shape
         N, M = acm.shape
+
+        ### if subsequence owp requested
+        if b:
+            if b < M:
+                M = b
+            else:
+                print('Subsequence length must be below total array length')
+        else:
+            print('Matching entire query sequence')
+
+        ### move one entry in reverse
         n = N - 1
         m = M - 1
 
+        ### owp to be populated in reverse
         p = []
         p.append([N,M])
 
