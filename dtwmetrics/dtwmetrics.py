@@ -19,7 +19,7 @@ class DTWMetrics:
 
 
     ### compute all dtwm_metrics
-    def dtwm(self, reference, query, distance_metric='euclidean', step_pattern='symmetric_p0', b=None ):
+    def dtwm(self, reference, query, distance_metric='euclidean', step_pattern='symmetric_p0', sequence='whole' ):
 
         ### compute cost matrix cm, 
         ### accumulated cost matrix acm,
@@ -27,7 +27,7 @@ class DTWMetrics:
         ### warped sequence
         cm = self.cm( reference, query, distance_metric=distance_metric )
         acm = self.acm( reference, query, distance_metric=distance_metric, step_pattern=step_pattern )
-        owp = self.optimal_warping_path( acm, b=b )   
+        owp = self.optimal_warping_path( acm )   
         warped_query = self.warped_sequence(query, owp)      
 
         return cm, acm, owp, warped_query
@@ -119,9 +119,7 @@ class DTWMetrics:
 
 
     ### step pattern: symmetric p0
-    def step_symmetric_p0(self, cm ):
-
-        print('\t--> step pattern: symmetric P0\n')
+    def step_symmetric_p0(self, cm, sequence='whole' ):
 
         ### sequence lengths
         N, M = cm.shape
@@ -137,9 +135,22 @@ class DTWMetrics:
         for n in range(1,N):
             acm[n,0] = acm[n-1,0] + cm[n,0]
             
-        ### D(1, m) = \sum_{k=1}^n c(x_1 , y_k ) for m ∈ [1 : M ] and
-        for m in range(1,M):
-            acm[0,m] = acm[0,m-1] + cm[0,m]
+        ### compute acm for whole or sub-sequence
+        if sequence == 'whole':
+
+            ### D(1, m) = \sum_{k=1}^n c(x_1 , y_k ) for m ∈ [1 : M ] and
+            for m in range(1,M):
+                acm[0,m] = acm[0,m-1] + cm[0,m]
+
+        elif sequence == 'sub':
+
+            ### D(1, m) = c(x_1 , y_m ) for m ∈ [1 : M ] and
+            for m in range(1,M):
+                acm[0,m] = cm[0,m]
+
+        else:
+
+            print('\tERROR: Undefined sequence type\n')
 
         ### for 1 < n ≤ N and 1 < m ≤ M .
         ### D(n, m) = min{D(n − 1, m − 1), D(n − 1, m), D(n, m − 1)} + c(x_n , y_m )
