@@ -243,3 +243,35 @@ class DTWMetrics:
                 acm[n, m] = min( acm[n-1, m-1], acm[n-2, m-1], acm[n-1, m-2]) + cm[n, m]
 
         return acm
+
+
+    ### step pattern: subsequence symmetric p0
+    def step_subsequence_symmetric_p0(self, cm ):
+
+        print('\t--> step pattern: subsequence symmetric P0\n')
+
+        ### sequence lengths
+        N, M = cm.shape
+
+        ### initialize
+        acm = np.zeros( [N, M] )
+
+        ### boundary condition 1
+        acm[0,0] = cm[0,0]
+
+        ### From (1) Theorem 4.3
+        ### D(n, 1) = \sum_{k=1}^n c(x_k , y_1 ) for n ∈ [1 : N ], 
+        for n in range(1,N):
+            acm[n,0] = acm[n-1,0] + cm[n,0]
+            
+        ### D(1, m) = \sum_{k=1}^n c(x_1 , y_k ) for m ∈ [1 : M ] and
+        for m in range(1,M):
+            acm[0,m] = acm[0,m-1] + cm[0,m]
+
+        ### for 1 < n ≤ N and 1 < m ≤ M .
+        ### D(n, m) = min{D(n − 1, m − 1), D(n − 1, m), D(n, m − 1)} + c(x_n , y_m )
+        for n in range(1, N):
+            for m in range(1, M):
+                acm[n, m] = cm[n, m] + min( acm[n-1, m], acm[n, m-1], acm[n-1, m-1]) 
+
+        return acm
