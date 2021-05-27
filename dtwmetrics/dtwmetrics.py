@@ -101,7 +101,7 @@ class DTWMetrics:
 
 
     ### accumulated cost matrix
-    def acm(self, reference, query, distance_metric='euclidean', step_pattern='symmetric_p0' ):
+    def acm(self, reference, query, distance_metric='euclidean', step_pattern='symmetric_p0', sequence='whole'  ):
 
         print('\tComputing accumulated cost matrix ({})\n'.format(distance_metric) )
 
@@ -113,7 +113,7 @@ class DTWMetrics:
         step_pattern_func = getattr(self, step_pattern_str)
 
         ### execute step path
-        acm = step_pattern_func(cm)
+        acm = step_pattern_func(cm, sequence=sequence)
 
         return acm
 
@@ -162,7 +162,7 @@ class DTWMetrics:
 
 
     ### step pattern: symmetric p1
-    def step_symmetric_p1(self, cm):
+    def step_symmetric_p1(self, cm, sequence='whole' ):
 
         print('\t--> step pattern: symmetric P1\n')
 
