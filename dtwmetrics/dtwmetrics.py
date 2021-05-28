@@ -14,27 +14,72 @@ References:
 
 import numpy as np
 from scipy.spatial.distance import cdist
+from scipy.signal import argrelextrema
 
 class DTWMetrics:
 
 
     ### compute all dtwm_metrics
-    def dtwm(self, reference, query, distance_metric='euclidean', step_pattern='symmetric_p0', sequence='whole' ):
+    def dtwm(self, 
+            reference, 
+            query, 
+            distance_metric='euclidean', 
+            step_pattern='symmetric_p0', 
+            sequence='whole' ):
 
         ### compute cost matrix cm, 
         ### accumulated cost matrix acm,
         ### optimal warping path owp and
         ### warped sequence
-        cm = self.cm( reference, query, distance_metric=distance_metric )
-        acm = self.acm( reference, query, distance_metric=distance_metric, step_pattern=step_pattern )
-        owp = self.optimal_warping_path( acm )   
-        warped_query = self.warped_sequence(query, owp)      
+        cm = self.cm(   reference, 
+                        query, 
+                        distance_metric=distance_metric )
+
+        acm = self.acm( reference, 
+                        query, 
+                        distance_metric=distance_metric, 
+                        step_pattern=step_pattern )
+
+        ### match whole sequence or only sub-sequence
+        if sequence == 'sub':
+
+            b, delta_b = self.compute_similar_subsequences( acm )
+            owp = self.optimal_warping_path( acm )   
+            warped_query = self.warped_sequence(query, owp) 
+
+        else:
+
+            owp = self.optimal_warping_path( acm )   
+            warped_query = self.warped_sequence(query, owp)      
 
         return cm, acm, owp, warped_query
 
 
+    ### 
+    def compute_similar_subsequences(self, acm):
+
+        ### distance function Δ:[1:M] → R, Δ(b) := D(N, b),
+        ### assigns each index b ∈ [1:M] the minimal DTW distance Δ(b) that
+        ### can be achieved between X and a subsequence Y (a:b) of Y ending in y_b .
+        delta_b = acm[-1, :]
+
+        ### find local minima
+        local_min = argrelextrema(delta_b, np.less)[0]
+
+        ### rest all local minima
+        for b in local_min:
+
+        	owp = self.optimal_warping_path( acm, b=b )  
+
+        return b, delta_b
+
+
     ### cost matrix calculation
-    def cm(self, X, Y, distance_metric='euclidean', method='cdist'):
+    def cm(self, 
+        X, 
+        Y, 
+        distance_metric='euclidean', 
+        method='cdist'):
 
         print('\tComputing cost matrix ({})\n'.format(distance_metric) )
 
@@ -101,7 +146,12 @@ class DTWMetrics:
 
 
     ### accumulated cost matrix
-    def acm(self, reference, query, distance_metric='euclidean', step_pattern='symmetric_p0', sequence='whole'  ):
+    def acm(self, 
+        reference, 
+        query, 
+        distance_metric='euclidean', 
+        step_pattern='symmetric_p0', 
+        sequence='whole' ):
 
         print('\tComputing accumulated cost matrix ({})\n'.format(distance_metric) )
 
@@ -238,8 +288,8 @@ class DTWMetrics:
         p = []
         p.append([N,M])
 
-        ### compute in reverse order
-        ### From (1) Algorithm: OptimalWarpingPath
+	    ### compute in reverse order
+	    ### From (1) Algorithm: OptimalWarpingPath
         while n > 0 and m > 0:
             ### check if acm bounds are reached
             if n == 1:
