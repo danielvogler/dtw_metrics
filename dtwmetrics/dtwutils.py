@@ -118,3 +118,19 @@ class DTWUtils:
         y_plot.set_ylabel('Reference [-]')
 
         return
+
+
+    def plot_delta_b(self, acm ):
+        
+        b, delta_b = dtwm.compute_similar_subsequences( acm )
+        fig = plt.figure(num=None, figsize=(16, 8), dpi=80, facecolor='w', edgecolor='k')
+        font = {'size'   : 14}
+        plt.rc('font', **font)
+        
+        p = plt.plot(delta_b, marker='.',c='r',label="delta_b")
+        plt.legend(loc='upper center')
+        plt.xlabel("Time [-]")
+        plt.ylabel("Value [-]")
+        plt.title("delta b")
+
+        return
