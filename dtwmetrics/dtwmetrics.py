@@ -16,6 +16,7 @@ import numpy as np
 from scipy.spatial.distance import cdist
 from scipy.signal import argrelextrema
 
+
 class DTWMetrics:
 
 
@@ -38,7 +39,8 @@ class DTWMetrics:
         acm = self.acm( reference, 
                         query, 
                         distance_metric=distance_metric, 
-                        step_pattern=step_pattern )
+                        step_pattern=step_pattern,
+                        sequence=sequence )
 
         ### match whole sequence or only sub-sequence
         if sequence == 'sub':
@@ -184,7 +186,7 @@ class DTWMetrics:
         ### D(n, 1) = \sum_{k=1}^n c(x_k , y_1 ) for n ∈ [1 : N ], 
         for n in range(1,N):
             acm[n,0] = acm[n-1,0] + cm[n,0]
-            
+
         ### compute acm for whole or sub-sequence
         if sequence == 'whole':
 
@@ -199,8 +201,8 @@ class DTWMetrics:
                 acm[0,m] = cm[0,m]
 
         else:
-
-            print('\tERROR: Undefined sequence type\n')
+            
+            raise Exception('Undefined sequence type\n')
 
         ### for 1 < n ≤ N and 1 < m ≤ M .
         ### D(n, m) = min{D(n − 1, m − 1), D(n − 1, m), D(n, m − 1)} + c(x_n , y_m )
@@ -221,10 +223,10 @@ class DTWMetrics:
 
         ### check if sequences differ at most by factor of 2
         if N > 2*M:
-            print('Reference length differs from query length by more than a factor of 2!')
+            raise Exception('Reference length differs from query length by more than a factor of 2!')
 
         elif M > 2*N:
-            print('Query length differs from reference length by more than a factor of 2!')
+            raise Exception('Query length differs from reference length by more than a factor of 2!')
 
         ### initialize
         acm = np.zeros( [N, M] )
@@ -276,7 +278,7 @@ class DTWMetrics:
             if b < M:
                 M = b
             else:
-                print('Subsequence length must be below total array length')
+                raise Exception('Subsequence length must be below total array length')
         else:
             print('Matching entire query sequence')
 
@@ -309,7 +311,7 @@ class DTWMetrics:
                 elif optimal_step == 2:
                     m = m - 1
                 else:
-                    print('Error in optimal step computation')
+                    raise Exception('Error in optimal step computation')
 
             ### append indices of optimal step
             p.append([n,m])
