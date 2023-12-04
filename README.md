@@ -13,6 +13,8 @@ Dynamic time warping metrics.
 
 ## Description
 
+Dynamic time warping (DTW) is an algorithm used to measure similarity between different data series, which may vary in speed.
+
 ## Setup
 
 ### Makefile
