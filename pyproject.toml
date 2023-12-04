@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "dtwmetrics"
-version = "0.1.0"
+version = "0.1.1"
 description = "Dynamic time warping metrics."
 authors = ["danielvogler"]
 license = "MIT"
